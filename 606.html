@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Youtube-Clone</title>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+
+        <style>
+            body{
+                font-family: 'Roboto','Arial';
+                margin:0;
+                padding-top:80px;
+                padding-left:96px;
+                padding-right:24px;
+                background-color: rgb(248,248,248);
+                
+            }
+            p{
+                margin-top:0;
+                margin-bottom:0;
+            }
+            .video-preview{
+                margin-bottom:25px;
+            }
+            .thumbnail{
+                width:100%;
+                display:block;
+                
+            }
+            .search-bar{
+                font-size: 20px;
+                
+                display:block
+            }
+            .video-title{
+                margin-top: 0;
+                font-size: 14px;
+                font-weight: 500;
+                line-height:20px;
+                margin-bottom:12px;
+                
+            }
+            
+            
+           
+            .channel-image{
+                
+                width:50px;
+                vertical-align: top;
+                
+            }
+            .channel-info{
+                width:245px;
+                padding:5px;
+                
+            }
+            .video-thumbnail{
+                
+                margin-bottom: 5px;
+                position:relative;
+                
+            }
+            .video-info{
+                display:grid;
+                grid-template-columns: 40px 250px;
+            }
+            .profile-pic{
+                width:36px;
+                border-radius: 25px;
+                
+            }
+            .video-author{
+                font-size: 12px;
+                color:#606060;
+                margin-bottom:4px;
+
+            }
+            .views{
+                font-size: 12px;
+                color:#606060;
+            }
+            .grid{
+                display:grid;
+                grid-template-columns: 1fr 1fr 1fr 1fr ;
+                margin-bottom:20px;
+                height:500px;
+                column-gap:12px;
+                row-gap: 12px;
+            }
+            .header{
+                height:55px;
+                display:flex;
+                flex-direction:row;
+                justify-content: space-between;
+                z-index: 1000;
+                top:0;
+                right:0;
+                left:0;
+                position:fixed;
+                background-color: white;
+                border-bottom: 1px rgb(233, 229, 229)solid;
+
+
+                
+            }
+            .left-sec{
+                display:flex;
+                
+                
+                align-items: center;
+            }
+            .middle-sec{
+                display:flex;
+                flex-direction: row;
+                align-items: center;
+                
+                flex:1;
+                margin-left:70px;
+                margin-right:35px;
+                max-width: 500px;
+            }
+            .right-sec{
+                display:flex;
+                flex-direction: row;
+                align-items: center;
+                column-gap: 35px;
+                
+            }
+            .hamburger-menu{
+                height:20px;
+                margin-left:24px;
+                margin-right:20px;
+            }
+            .youtube-logo{
+                height:24px;
+            }
+            .search-button{
+                height:39px;
+                width:60px;
+                border:1px rgb(192,192,192) solid;
+                border-top-right-radius: 2px;
+                border-bottom-right-radius: 2px;
+                border-left:none;
+                margin-right: 15px;
+                position:relative;
+
+            }
+            .search-button:hover{
+                cursor:pointer;
+                background-color: rgb(193,193,193);
+            }
+            .upload-icon-container{
+                position:relative;
+            }
+
+            
+            .voice-search-button .search,
+            .search-button .search{
+                position:absolute;
+                top:60px;
+                background-color:rgba(0, 0, 0, 0.5);
+                padding-top:6px;
+                padding-bottom:6px;
+                padding-right:5px;
+                padding-left:5px;
+                color:white;
+                border-radius:4px;
+                opacity:0;
+                pointer-events: none;
+                white-space: nowrap;
+            }
+            .upload-icon-container .search{
+                position:absolute;
+                top:40px;
+                background-color:rgba(0, 0, 0, 0.5);
+                padding-top:6px;
+                padding-bottom:6px;
+                padding-right:5px;
+                padding-left:5px;
+                color:white;
+                border-radius:4px;
+                opacity:0;
+                pointer-events: none;
+                white-space: nowrap;
+                font-size:12px;
+                
+            }
+            .upload-icon-container:hover .search,
+            .voice-search-button:hover .search,
+            .search-button:hover .search{
+                opacity:1;
+                transition:0.5s;
+                
+            }
+            .upload-icon-container,
+            .search-button,
+            .voice-search-button{
+                display:flex;
+                justify-content: center;
+            }
+            .voice-search-button{
+                height:40px;
+                width:40px;
+                border-radius: 20px ;
+                border:none;
+                position:relative
+                
+            }
+         
+            .search-bar{
+                flex:1;
+                height:35px;
+                border:1px rgb(192,192,192) solid;
+                padding-left:10px;
+                font-size: 16px;
+                border-top-left-radius: 2px;
+                border-bottom-left-radius: 2px;
+                box-shadow: inset 1px 2px 3px rgba(0,0,0,0.05);
+                width:0; /*To set the default width to zero so that when the window is minimize it can be very small*/
+            }
+            .search-bar::placeholder{
+                font-family: 'Roboto','Arial';
+                font-size:16px;
+            }
+            .search-icon{
+                padding-top: 3px;
+                height:25px;
+                
+            }
+            .voice-search-icon{
+                padding-top:2px;
+            }
+            .upload-icon{
+                height:25px;
+            }
+            .youtube-apps-icon{
+                height:25px;
+            }
+            .icons-icon{
+                height:25px;
+            }
+            .ppf-icon{
+                height:37px;
+                border-radius: 20px;
+                margin-right: 10px;
+            }
+            .sidebar{
+                position:fixed;
+                bottom:0;
+                left:0;
+                top:54px;
+                width:72px;
+                z-index:10001;
+                background-color: white;
+                padding-top:5px;
+            }
+            .sidebar-link{
+                
+                height:76px;
+                margin-bottom:1px;
+                display:flex;
+                align-items: center;
+                justify-content: center;
+                display:flex;
+                flex-direction: column;
+                border-right: 1px rgb(233, 229, 229)solid;
+            }
+            .sidebar-link:hover{
+                background-color: rgb(235, 235, 235);
+                cursor:pointer;
+            }
+            .sidebar-link img{
+                height:25px;
+                margin-bottom:5px
+            }
+            .sidebar-link div{
+                font-size: 10px;
+                
+            }
+            .video-time{
+                
+                color:white;
+                position:absolute;
+                bottom:8px;
+                right:5px;
+                font-size: 14px;
+                padding:4px;
+                font-weight:500;
+                background-color: rgba(0,0,0,0.5);
+                border-radius:5px;
+
+            }
+            .notification-bell{
+                position:relative;
+            }
+            .notifications{
+                display:flex;
+                position:absolute;
+                background-color: rgb(213, 6, 6);
+                top:0;
+                right:0;
+                height:15px;
+                width:15px;
+               
+                font-size: 10px;
+                border-radius: 7px;
+                color:white;
+                font-weight: 500;
+                justify-content: center;
+                align-content: center;
+
+            }
+            .youtube-logo:hover,
+            .hamburger-menu:hover{
+                cursor:pointer;
+            }
+            .ppf-icon:hover,
+            .icons-icon:hover,
+            .upload-icon:hover{
+                cursor:pointer;
+            }
+
+
+        </style>
+    </head>
+    <body>
+        
+
+        <div class="header">
+
+            <div class="left-sec">
+                <img class="hamburger-menu"  src="icons/hamburger-menu.svg">
+                <img class="youtube-logo" src="icons/youtube-logo.svg">
+            </div>
+            <div class="middle-sec">
+                <input class="search-bar"  type="text" placeholder="Search">
+                <button class="search-button">
+                    <img class="search-icon"  src="icons/search.svg">
+                    <div class="search">Search</div>
+                </button>
+                <button class="voice-search-button">
+                    <img class="voice-search-icon"  src="icons/voice-search-icon.svg">
+                    <div class="search">Search with your voice</div>
+                </button>
+            </div>
+            <div class="right-sec">
+                <div class="upload-icon-container">
+                    <img class="upload-icon" src="icons/upload.svg">
+                    <div class="search">Create</div>
+                </div>
+                <div class="upload-icon-container">
+                    <img class="upload-icon" src="icons/youtube-apps.svg">
+                    <div class="search">Youtube Apps</div>
+                </div>
+                
+                <div class="notification-bell upload-icon-container">
+                    <img class="icons-icon" src="icons/notifications.svg">
+                    <div class="notifications">3</div>
+                    <div class="search">Notifications</div>
+                </div>
+                
+                <img class="ppf-icon" src="channel-pictures/ppf.jpg">
+            </div>
+
+        </div>
+        <div class="sidebar">
+            <div class="sidebar-link">
+                <img src="icons/home.svg">
+                <div>Home</div>
+            </div>
+            <div class="sidebar-link">
+                <img src="icons/explore.svg">
+                <div>Explore</div>
+            </div>
+            <div class="sidebar-link">
+                <img src="icons/subscriptions.svg">
+                <div>Subscriptions</div>
+            </div>
+            <div class="sidebar-link">
+                <img src="icons/originals.svg">
+                <div>Originals</div>
+            </div>
+            <div class="sidebar-link">
+                <img src="icons/youtube-music.svg">
+                <div>Youtube Music</div>
+            </div>
+            <div class="sidebar-link">
+                <img src="icons/library.svg">
+                <div>Library</div>
+            </div>
+        </div>
+        
+        <div class="grid">
+
+            <div class="video-preview">
+            
+                <div class="video-thumbnail">
+                    <img src="thumbnails/thumbnail-1.webp" class="thumbnail">
+                    <div class="video-time">14:20</div>
+                </div>
+                
+            
+                <div class="video-info">
+                    <div class="channel-image">
+                        <img class="profile-pic" src="channel-pictures/channel-1.jpeg">
+                    </div>
+    
+                    <div class="channel-info">
+                        <p class="video-title">
+                            Talking Tech and AI with Google CEO Sundar Pichai!
+                        </p>
+            
+                        <p class="video-author">
+                         Marques Brownlee
+                        </p>
+            
+                        <p class="views">
+                            3.4M views · 6 months ago
+                        </p>
+                    </div>
+                    
+                </div>
+    
+            </div>
+    
+    
+            <div class="video-preview">
+                
+                <div class="video-thumbnail">
+                    <img src="thumbnails/thumbnail-3.webp" class="thumbnail">
+                    <div class="video-time">9:13</div>
+                </div>
+                
+            
+                <div class="video-info">
+                    <div class="channel-image">
+                        <img class="profile-pic" src="channel-pictures/channel-3.jpeg">
+                    </div>
+    
+                    <div class="channel-info">
+                        <p class="video-title">
+                            Crazy Tik Toks Taken Moments Before DISASTER
+                        </p>
+            
+                        <p class="video-author">
+                            SSSniperWolf
+                        </p>
+            
+                        <p class="views">
+                            12M views · 1 year ago
+                        </p>
+                    </div>
+                    
+                </div>
+    
+            </div>
+    
+            <div class="video-preview">
+                
+                <div class="video-thumbnail">
+                    <img src="thumbnails/thumbnail-10.webp" class="thumbnail">
+                    <div class="video-time">8:22</div>
+                </div>
+                
+            
+                <div class="video-info">
+                    <div class="channel-image">
+                        <img class="profile-pic" src="channel-pictures/channel-10.jpeg">
+                    </div>
+    
+                    <div class="channel-info">
+                        <p class="video-title">
+                            
+                            How The World's Largest Cruise Ship Makes 30,000 Meals Every Day
+                        </p>
+            
+                        <p class="video-author">
+                            Business Insider
+                        </p>
+            
+                        <p class="views">
+                            14M views · 1 year ago
+                        </p>
+                    </div>
+                    
+                </div>
+    
+            </div>
+
+            <div class="video-preview">
+            
+                <div class="video-thumbnail">
+                    <img src="thumbnails/thumbnail-9.webp" class="thumbnail">
+                    <div class="video-time">13:17</div>
+                </div>
+                
+            
+                <div class="video-info">
+                    <div class="channel-image">
+                        <img class="profile-pic" src="channel-pictures/channel-9.jpeg">
+                    </div>
+            
+                    <div class="channel-info">
+                        <p class="video-title">
+                            Crazy Tik Toks Taken Moments Before DISASTER
+                        </p>
+            
+                        <p class="video-author">
+                            SSSniperWolf
+                        </p>
+            
+                        <p class="views">
+                            12M views · 1 year ago
+                        </p>
+                    </div>
+                    
+                </div>
+            
+            </div>
+
+
+            <div class="video-preview">
+            
+                <div class="video-thumbnail">
+                    <img src="thumbnails/thumbnail-1.webp" class="thumbnail">
+                </div>
+                
+            
+                <div class="video-info">
+                    <div class="channel-image">
+                        <img class="profile-pic" src="channel-pictures/channel-1.jpeg">
+                    </div>
+    
+                    <div class="channel-info">
+                        <p class="video-title">
+                            Talking Tech and AI with Google CEO Sundar Pichai!
+                        </p>
+            
+                        <p class="video-author">
+                         Marques Brownlee
+                        </p>
+            
+                        <p class="views">
+                            3.4M views · 6 months ago
+                        </p>
+                    </div>
+                    
+                </div>
+    
+            </div>
+    
+    
+            <div class="video-preview">
+                
+                <div class="video-thumbnail">
+                    <img src="thumbnails/thumbnail-3.webp" class="thumbnail">
+                </div>
+                
+            
+                <div class="video-info">
+                    <div class="channel-image">
+                        <img class="profile-pic" src="channel-pictures/channel-3.jpeg">
+                    </div>
+    
+                    <div class="channel-info">
+                        <p class="video-title">
+                            Crazy Tik Toks Taken Moments Before DISASTER
+                        </p>
+            
+                        <p class="video-author">
+                            SSSniperWolf
+                        </p>
+            
+                        <p class="views">
+                            12M views · 1 year ago
+                        </p>
+                    </div>
+                    
+                </div>
+    
+            </div>
+    
+            <div class="video-preview">
+                
+                <div class="video-thumbnail">
+                    <img src="thumbnails/thumbnail-10.webp" class="thumbnail">
+                </div>
+                
+            
+                <div class="video-info">
+                    <div class="channel-image">
+                        <img class="profile-pic" src="channel-pictures/channel-10.jpeg">
+                    </div>
+    
+                    <div class="channel-info">
+                        <p class="video-title">
+                            
+                            How The World's Largest Cruise Ship Makes 30,000 Meals Every Day
+                        </p>
+            
+                        <p class="video-author">
+                            Business Insider
+                        </p>
+            
+                        <p class="views">
+                            14M views · 1 year ago
+                        </p>
+                    </div>
+                    
+                </div>
+    
+            </div>
+
+            <div class="video-preview">
+            
+                <div class="video-thumbnail">
+                    <img src="thumbnails/thumbnail-9.webp" class="thumbnail">
+                </div>
+                
+            
+                <div class="video-info">
+                    <div class="channel-image">
+                        <img class="profile-pic" src="channel-pictures/channel-9.jpeg">
+                    </div>
+            
+                    <div class="channel-info">
+                        <p class="video-title">
+                            Crazy Tik Toks Taken Moments Before DISASTER
+                        </p>
+            
+                        <p class="video-author">
+                            SSSniperWolf
+                        </p>
+            
+                        <p class="views">
+                            12M views · 1 year ago
+                        </p>
+                    </div>
+                    
+                </div>
+            
+            </div>
+            
+            <div class="video-preview">
+            
+                <div class="video-thumbnail">
+                    <img src="thumbnails/thumbnail-1.webp" class="thumbnail">
+                </div>
+                
+            
+                <div class="video-info">
+                    <div class="channel-image">
+                        <img class="profile-pic" src="channel-pictures/channel-1.jpeg">
+                    </div>
+    
+                    <div class="channel-info">
+                        <p class="video-title">
+                            Talking Tech and AI with Google CEO Sundar Pichai!
+                        </p>
+            
+                        <p class="video-author">
+                         Marques Brownlee
+                        </p>
+            
+                        <p class="views">
+                            3.4M views · 6 months ago
+                        </p>
+                    </div>
+                    
+                </div>
+    
+            </div>
+    
+    
+            <div class="video-preview">
+                
+                <div class="video-thumbnail">
+                    <img src="thumbnails/thumbnail-3.webp" class="thumbnail">
+                </div>
+                
+            
+                <div class="video-info">
+                    <div class="channel-image">
+                        <img class="profile-pic" src="channel-pictures/channel-3.jpeg">
+                    </div>
+    
+                    <div class="channel-info">
+                        <p class="video-title">
+                            Crazy Tik Toks Taken Moments Before DISASTER
+                        </p>
+            
+                        <p class="video-author">
+                            SSSniperWolf
+                        </p>
+            
+                        <p class="views">
+                            12M views · 1 year ago
+                        </p>
+                    </div>
+                    
+                </div>
+    
+            </div>
+    
+            <div class="video-preview">
+                
+                <div class="video-thumbnail">
+                    <img src="thumbnails/thumbnail-10.webp" class="thumbnail">
+                </div>
+                
+            
+                <div class="video-info">
+                    <div class="channel-image">
+                        <img class="profile-pic" src="channel-pictures/channel-10.jpeg">
+                    </div>
+    
+                    <div class="channel-info">
+                        <p class="video-title">
+                            
+                            How The World's Largest Cruise Ship Makes 30,000 Meals Every Day
+                        </p>
+            
+                        <p class="video-author">
+                            Business Insider
+                        </p>
+            
+                        <p class="views">
+                            14M views · 1 year ago
+                        </p>
+                    </div>
+                    
+                </div>
+    
+            </div>
+
+            <div class="video-preview">
+            
+                <div class="video-thumbnail">
+                    <img src="thumbnails/thumbnail-9.webp" class="thumbnail">
+                </div>
+                
+            
+                <div class="video-info">
+                    <div class="channel-image">
+                        <img class="profile-pic" src="channel-pictures/channel-9.jpeg">
+                    </div>
+            
+                    <div class="channel-info">
+                        <p class="video-title">
+                            Crazy Tik Toks Taken Moments Before DISASTER
+                        </p>
+            
+                        <p class="video-author">
+                            SSSniperWolf
+                        </p>
+            
+                        <p class="views">
+                            12M views · 1 year ago
+                        </p>
+                    </div>
+                    
+                </div>
+            
+            </div>
+
+
+            <div class="video-preview">
+            
+                <div class="video-thumbnail">
+                    <img src="thumbnails/thumbnail-1.webp" class="thumbnail">
+                </div>
+                
+            
+                <div class="video-info">
+                    <div class="channel-image">
+                        <img class="profile-pic" src="channel-pictures/channel-1.jpeg">
+                    </div>
+    
+                    <div class="channel-info">
+                        <p class="video-title">
+                            Talking Tech and AI with Google CEO Sundar Pichai!
+                        </p>
+            
+                        <p class="video-author">
+                         Marques Brownlee
+                        </p>
+            
+                        <p class="views">
+                            3.4M views · 6 months ago
+                        </p>
+                    </div>
+                    
+                </div>
+    
+            </div>
+    
+    
+            <div class="video-preview">
+                
+                <div class="video-thumbnail">
+                    <img src="thumbnails/thumbnail-3.webp" class="thumbnail">
+                </div>
+                
+            
+                <div class="video-info">
+                    <div class="channel-image">
+                        <img class="profile-pic" src="channel-pictures/channel-3.jpeg">
+                    </div>
+    
+                    <div class="channel-info">
+                        <p class="video-title">
+                            Crazy Tik Toks Taken Moments Before DISASTER
+                        </p>
+            
+                        <p class="video-author">
+                            SSSniperWolf
+                        </p>
+            
+                        <p class="views">
+                            12M views · 1 year ago
+                        </p>
+                    </div>
+                    
+                </div>
+    
+            </div>
+    
+            <div class="video-preview">
+                
+                <div class="video-thumbnail">
+                    <img src="thumbnails/thumbnail-10.webp" class="thumbnail">
+                </div>
+                
+            
+                <div class="video-info">
+                    <div class="channel-image">
+                        <img class="profile-pic" src="channel-pictures/channel-10.jpeg">
+                    </div>
+    
+                    <div class="channel-info">
+                        <p class="video-title">
+                            
+                            How The World's Largest Cruise Ship Makes 30,000 Meals Every Day
+                        </p>
+            
+                        <p class="video-author">
+                            Business Insider
+                        </p>
+            
+                        <p class="views">
+                            14M views · 1 year ago
+                        </p>
+                    </div>
+                    
+                </div>
+    
+            </div>
+
+            <div class="video-preview">
+            
+                <div class="video-thumbnail">
+                    <img src="thumbnails/thumbnail-9.webp" class="thumbnail">
+                </div>
+                
+            
+                <div class="video-info">
+                    <div class="channel-image">
+                        <img class="profile-pic" src="channel-pictures/channel-9.jpeg">
+                    </div>
+            
+                    <div class="channel-info">
+                        <p class="video-title">
+                            Crazy Tik Toks Taken Moments Before DISASTER
+                        </p>
+            
+                        <p class="video-author">
+                            SSSniperWolf
+                        </p>
+            
+                        <p class="views">
+                            12M views · 1 year ago
+                        </p>
+                    </div>
+                    
+                </div>
+            
+            </div>
+
+        </div>    
+    </body>
+</html>
